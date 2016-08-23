@@ -1,0 +1,22 @@
+Text FX
+
+Version 1.2
+
+12-Dec-2011
+
+// Updated to jQuery 1.7.1
+
+// Removed Developer Alert Messages
+
+
+
+Text FX
+
+Version 1.1
+
+30-Oct-2011
+
+// Improved IE7, IE8 text rendering
+
+// Uodated to jQuery 1.6.4
+

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+    
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    	<title>jQuery TextFX - A jQuery Text Animation Engine</title>
+        
+        <link rel="stylesheet" type="text/css" href="css/cj-text-fx.css" />
+        
+        <style type="text/css">
+			
+			@font-face {
+				
+				font-family: 'SansationRegular';
+				src: url('fonts/Sansation_Regular-webfont.eot');
+				src: url('fonts/Sansation_Regular-webfont.eot?#iefix') format('embedded-opentype'),
+					 url('fonts/Sansation_Regular-webfont.woff') format('woff'),
+					 url('fonts/Sansation_Regular-webfont.ttf') format('truetype'),
+					 url('fonts/Sansation_Regular-webfont.svg#SansationRegular') format('svg');
+				font-weight: normal;
+				font-style: normal;
+			
+			}
+			
+			body {
+			
+				margin: 0;
+				padding: 0;
+				font-family: "SansationRegular", Verdana, Geneva, sans-serif;
+				font-size: 12px;
+				line-height: 18px;
+				color: #333;
+				
+			}
+			
+			#top {
+				
+				width: 100%;
+				height: 95px;
+				background-color: #F9F9F9;
+				border-top: 1px solid #FFF;
+				border-bottom: 1px solid #FFF;
+				-moz-box-shadow: 0px 0px 5px #DDD;
+				-webkit-box-shadow: 0px 0px 5px #DDD;
+				box-shadow: 0px 0px 5px #DDD;
+				
+			}
+			
+			#bottom {
+				
+				width: 100%;
+				height: 95px;
+				background-color: #F9F9F9;
+				border-top: 1px solid #FFF;
+				-moz-box-shadow: 0px 0px 5px #DDD;
+				-webkit-box-shadow: 0px 0px 5px #DDD;
+				box-shadow: 0px 0px 5px #DDD;
+				
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				
+			}
+			
+			#top #stretch-top {
+			
+				position: absolute;
+				left: 50%;
+				margin-left: -485px;
+				
+			}
+			
+			#bottom #stretch-bottom {
+			
+				position: absolute;
+				left: 50%;
+				margin-left: -485px;
+				
+			}
+			
+			#top #stretch-top div, #bottom #stretch-bottom div {
+			
+				float: left;
+				padding: 18px 0 5px 20px;
+				
+			}
+			
+			#top #stretch-top div:first-child, #bottom #stretch-bottom div:first-child {
+			
+				padding-left: 0;
+				
+			}
+
+			#top #stretch-top p, #bottom #stretch-bottom p {
+			
+				margin: 0 0 5px 5px;
+				font-size: 16px;
+				
+			}
+			
+			#top #stretch-top p#picker {
+			
+				margin-bottom: 9px;
+				
+			}
+			
+			#top #stretch-top span, #bottom #stretch-bottom span {
+			
+				float: left;
+				text-align: center;
+				margin: 0 3px 0 3px;
+				
+			}
+			
+			#top #stretch-top select {
+			
+				margin-top: 5px;
+				font-family: "SansationRegular", Verdana, Geneva, sans-serif;
+				font-size: 14px;
+				
+			}
+			
+			#text-field {
+			
+				position: absolute;
+				bottom: 120px;
+				left: 50%;
+				margin-left: -186px;
+				
+			}
+			
+			#text-field input.mytext {
+			
+				font-family: "Droid Sans", Arial, Helvetica, sans-serif;
+				font-size: 22px;
+				text-align: center;
+				padding: 10px;
+				color: #333;
+				width: 350px;
+				margin: 0;
+				
+				background-color: #F9F9F9;
+				border: 1px solid #FFF;
+				-moz-box-shadow: 0px 1px 5px #DDD;
+				-webkit-box-shadow: 0px 1px 5px #DDD;
+				box-shadow: 0px 1px 5px #DDD;
+				
+			}
+			
+			#bottom #stretch-bottom .speed span {
+			
+				margin: 0 6px 0 6px;
+				
+			}
+			
+			#bottom #stretch-bottom a.button {
+			
+				display: inline-block;
+				margin: 13px 2px 0 2px;
+				padding: 8px;
+				color: #333;
+				font-size: 16px;
+				text-decoration: none;
+				outline: none;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				background-color: #F9F9F9;
+				border: 1px solid #FFF;
+				-moz-box-shadow: 0px 1px 5px #D5D5D5;
+				-webkit-box-shadow: 0px 1px 5px #D5D5D5;
+				box-shadow: 0px 1px 5px #D5D5D5;
+				
+			}
+			
+			#bottom #stretch-bottom a.button:visited {
+			
+				color: #333;
+				
+			}
+			
+			#bottom #stretch-bottom a.button:hover {
+			
+				background-color: #EEE;
+				
+			}
+		
+		</style>
+    	
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="js/jquery.easing.1.3.min.js" type="text/javascript"></script>
+        <script src="js/cj-text-fx.min.js" type="text/javascript"></script>
+        <script src="jscolor/jscolor.min.js" type="text/javascript"></script>
+        
+		<script type="text/javascript">
+		
+			var fx, isOn = 1, forceReverse;
+
+			jQuery(document).ready(function() {
+				
+				jQuery.cjTextFx({restoreHTML: false});
+				
+				jQuery("#previous").click(prevAnime);
+				jQuery("#go").click(clicked);
+				jQuery("#next").click(nextAnime);
+				
+				fx = jQuery("#effect");
+				inputs = jQuery(".mytext");
+				
+				selectAndRun();
+				
+			});
+			
+			function prevAnime(event) {
+			
+				event.preventDefault();
+				
+				isOn = parseInt(jQuery("#numbers input:checked").attr("value"), 10);
+				
+				(isOn > 1) ? isOn-- : isOn = 15;
+				
+				selectAndRun();
+				
+			}
+			
+			function nextAnime(event) {
+			
+				event.preventDefault();
+				
+				isOn = parseInt(jQuery("#numbers input:checked").attr("value"), 10);
+				
+				(isOn < 15) ? isOn++ : isOn = 1;
+				
+				selectAndRun();
+				
+			}
+			
+			function clicked(event) {
+				
+				event.preventDefault();
+				
+				isOn = parseInt(jQuery("#numbers input:checked").attr("value"), 10);
+				
+				runAnime();
+				
+			}
+			
+			function selectAndRun() {
+				
+				jQuery("#item" + isOn.toString()).attr("checked", true);
+				
+				runAnime();
+				
+			}
+			
+			function runAnime() {
+			
+				fx.html(jQuery(".mytext").attr("value"));
+				
+				if(isOn !== 6 && isOn !== 7 && isOn != 10) {
+					
+					forceReverse = jQuery("#tostart input:checked").attr("value") === "yes" ? false : true;
+					
+				}
+				else {
+					
+					forceReverse = true;
+					
+					
+				}
+				
+				jQuery.cjTextFx.animate("#effect", {
+				
+					animation: parseInt(jQuery("#numbers input:checked").attr("value"), 10),
+					animationType: jQuery("#types input:checked").attr("value"),
+					backwards: forceReverse,
+					easing: jQuery("#eases option:selected").text(),
+					speed: parseInt(jQuery("#speeds input:checked").attr("value"), 10),
+					sequenceDelay: parseInt(jQuery("#delays input:checked").attr("value"), 10),
+					offsetX: parseInt(jQuery("#offx input:checked").attr("value"), 10),
+					offsetY: parseInt(jQuery("#offy input:checked").attr("value"), 10),
+					color: "#" + jQuery("#colors input").attr("value")
+					
+				});
+				
+			}
+			
+			function enterText(obj) {
+				
+				if(obj.value === "Welcome to TextFX") obj.value = "";;
+				
+			}
+			
+			function exitText(obj) {
+				
+				if(obj.value === "") obj.value = "Welcome to TextFX";
+				
+			}
+            
+    	</script>
+        
+	</head>
+    
+	<body>
+            
+            <div id="container">
+                
+                <div id="text-fx">
+                    
+                    <div id="effect"></div>
+                    
+                </div>
+            
+            </div>
+
+            <div id="top">
+                    	
+                 <div id="stretch-top">
+                 
+                 	<div id="numbers">
+                            
+                    	<p>Animation Number</p>
+                                
+                        <span>
+                        	<input type="radio" id="item1" name="anime" value="1" checked /><br />1
+						</span>
+                                
+						<span>
+							<input type="radio" id="item2" name="anime" value="2" /><br />2
+						</span>
+                                
+						<span>
+							<input type="radio" id="item3" name="anime" value="3" /><br />3
+						</span>
+                                
+						<span>
+							<input type="radio" id="item4" name="anime" value="4" /><br />4
+						</span>
+                                
+						<span>
+							<input type="radio" id="item5" name="anime" value="5" /><br />5
+						</span>
+                                
+						<span>
+							<input type="radio" id="item6" name="anime" value="6" /><br />6
+						</span>
+                                
+						<span>
+							<input type="radio" id="item7" name="anime" value="7" /><br />7
+						</span>
+                                
+						<span>
+							<input type="radio" id="item8" name="anime" value="8" /><br />8
+						</span>
+                                
+						<span>
+							<input type="radio" id="item9" name="anime" value="9" /><br />9
+						</span>
+                                
+						<span>
+							<input type="radio" id="item10" name="anime" value="10" /><br />10
+						</span>
+                                
+						<span>
+							<input type="radio" id="item11" name="anime" value="11" /><br />11
+						</span>
+                                
+						<span>
+							<input type="radio" id="item12" name="anime" value="12" /><br />12
+						</span>
+                        
+                        <span>
+							<input type="radio" id="item13" name="anime" value="13" /><br />13
+						</span>
+                                
+						<span>
+							<input type="radio" id="item14" name="anime" value="14" /><br />14
+						</span>
+                        
+                        <span>
+							<input type="radio" id="item15" name="anime" value="15" /><br />15
+						</span>
+                                
+					</div>
+                            
+					<div id="types">
+                            
+						<p>Effect Type</p>
+                                
+						<span>
+							<input type="radio" name="direct" value="in" checked /><br />in
+						</span>
+                                
+						<span>
+							<input type="radio" name="direct" value="out" /><br />out
+						</span>
+                                
+					</div>
+                            
+					<div id="tostart">
+                            
+						<p>Start 1st Letter</p>
+                                
+						<span>
+							<input type="radio" name="backwards" value="yes" checked /><br />yes
+						</span>
+                                
+						<span>
+							<input type="radio" name="backwards" value="no" /><br />no
+						</span>
+                                
+					</div>
+                            
+					<div id="eases">
+                            
+						<p>Easing Method</p>
+                                
+						<span>
+                                    
+                            <select>
+                                        
+                                <option>easeOutQuint</option>
+                                <option>easeInQuint</option>
+                                <option>easeInOutQuint</option>
+                                <option>easeOutQuad</option>
+                                <option>easeInQuad</option>
+                                <option>easeInOutQuad</option>
+                                <option>easeOutBack</option>
+                                <option>easeInBack</option>
+                                <option>easeInOutBack</option>
+                                <option>easeOutBounce</option>
+                                <option>easeInBounce</option>
+                                <option>easeInOutBounce</option>
+                                        
+                            </select>
+                                    
+						</span>
+                                
+					</div>
+                            
+					<div id="colors">
+                            
+						<p id="picker">Text Color</p>
+                                    
+						<span>
+							<input class="color {pickerMode:'HSV'}" value="000000" />
+						</span>
+                            
+					</div>
+                            
+				</div>
+                
+			</div>        
+                            
+            <div id="text-field">
+            
+            	<input type="text" class="mytext" maxlength="35" value="Welcome to TextFX" onfocus="enterText(this)" onblur="exitText(this)" />
+            
+            </div>
+                
+            <div id="bottom">
+                    
+				<div id="stretch-bottom">
+                        
+					<div class="speed" id="speeds">
+                            
+						<p>Animation Speed</p>
+                                    
+						<span>
+							<input type="radio" name="speed" value="500" /><br />500
+						</span>
+                                    
+						<span>
+							<input type="radio" name="speed" value="750" /><br />750
+						</span>
+                                    
+						<span>
+							<input type="radio" name="speed" value="1000" checked /><br />1000
+						</span>
+                                    
+						<span>
+							<input type="radio" name="speed" value="1250" /><br />1250
+						</span>
+                                    
+						<span>
+							<input type="radio" name="speed" value="1500" /><br />1500
+						</span>
+                                
+					</div>
+                            
+					<div class="speed" id="delays">
+                            
+						<p>Letter Delay</p>
+                                    
+						<span>
+							<input type="radio" name="delay" value="50" /><br />50
+						</span>
+                                    
+						<span>
+							<input type="radio" name="delay" value="75" /><br />75
+						</span>
+                                    
+						<span>
+							<input type="radio" name="delay" value="100" checked /><br />100
+						</span>
+                                    
+						<span>
+							<input type="radio" name="delay" value="125" /><br />125
+						</span>
+                                    
+						<span>
+							<input type="radio" name="delay" value="150" /><br />150
+						</span>
+                                
+					</div>
+                            
+					<div id="offx">
+                            
+						<p>Offset X</p>
+                                    
+						<span>
+							<input type="radio" name="offsetX" value="50" /><br />50
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetX" value="75" /><br />75
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetX" value="100" checked /><br />100
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetX" value="125" /><br />125
+						</span>
+                                
+						<span>
+							<input type="radio" name="offsetX" value="150" /><br />150
+						</span>
+                                
+					</div>
+                            
+					<div id="offy">
+                            
+						<p>Offset Y</p>
+                                    
+						<span>
+							<input type="radio" name="offsetY" value="50" checked /><br />50
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetY" value="75" /><br />75
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetY" value="100" /><br />100
+						</span>
+                                    
+						<span>
+							<input type="radio" name="offsetY" value="125" /><br />125
+						</span>
+                                
+						<span>
+							<input type="radio" name="offsetY" value="150" /><br />150
+						</span>
+                                
+					</div>
+                            
+					<div>
+                            	
+						<a href="#" id="previous" class="button">Previous</a>
+						<a href="#" id="go" class="button">Run Animation</a>
+						<a href="#" id="next" class="button">Next</a>
+                            
+					</div>
+                            
+				</div>    
+                        
+			</div>
+
+    </body>
+    
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

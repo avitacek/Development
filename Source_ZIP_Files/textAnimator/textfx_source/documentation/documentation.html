@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+    
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+		<title>jQuery TextFX - A jQuery Text Animation Engine</title>
+        
+        <style type="text/css">
+			
+			body {
+			
+				margin: 0;
+				padding: 0;
+				
+				font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+				font-size: 13px;
+				line-height: 22px;
+				background-color: #F5F5F5;
+				
+			}
+			
+			@font-face { 
+										
+				font-family: "YanoneKaffeesatzRegular";
+				src: url("fonts/YanoneKaffeesatz-Regular-webfont.eot");
+				src: url("fonts/YanoneKaffeesatz-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+						url("fonts/YanoneKaffeesatz-Regular-webfont.woff") format("woff"),
+						url("fonts/YanoneKaffeesatz-Regular-webfont.ttf") format("truetype"),
+						url("fonts/YanoneKaffeesatz-Regular-webfont.svg#YanoneKaffeesatzRegular") format("svg");		
+				font-weight: normal;
+				font-style: normal;
+												
+			}
+			
+			#wrappers {
+			
+				width: 100%;
+				
+			}
+			
+			#containers {
+			
+				width: 920px;
+				margin: 0px auto;
+				background-color: #FFF;
+				padding: 30px 30px 90px 30px;
+				border-left: 1px solid #DDD;
+				border-right: 1px solid #DDD;
+				-moz-box-shadow: 0px 0px 10px #E5E5E5;
+				-webkit-box-shadow: 0px 0px 10px #E5E5E5;
+				box-shadow: 0px 0px 10px #E5E5E5;
+				
+			}
+			
+			.jump {
+			
+				float: right;
+				
+			}
+			
+			h2 {
+			
+				font-family: "YanoneKaffeesatzRegular", Verdana, Geneva, sans-serif;
+				
+			}
+			
+			h2 {
+				
+				font-size: 28px;
+				
+			}
+			
+			h3 {
+				
+				font-size: 16px;
+				
+			}
+			
+			.code {
+				
+				font-family: "Courier New", Courier, monospace;
+				font-size: 12px;
+				display: inline-block;
+				background-color: #FFFFE5;
+				border: 1px solid #EEE;
+				padding: 20px;
+				
+			}
+			
+			.margin {
+				
+				margin-left: 20px;
+				
+			}
+			
+			.note {
+				
+				font-family: Verdana, Geneva, sans-serif;
+				font-style: italic;
+				font-size: 12px;
+				
+			}
+			
+			.raise {
+			
+				margin: 7px 0 0 0;
+				font-size: 21px;
+				
+			}
+			
+			.color {
+			
+				color: #900;
+				
+			}
+			
+			.hr {
+				
+				margin: 16px 0 16px 0;
+				background-color: #EEE;
+				width: 100%;
+				height: 1px;
+				
+			}
+		
+		</style>
+
+	</head>
+
+    <body>
+        
+    	<div id="wrappers">
+        
+        	<div id="containers">
+        		
+                <div class="jump">
+                	<a href="#options">jump to options</a>
+                </div>
+                
+                <h2>Welcome to TextFX</h2>
+        
+                    TextFX is easy to use, and you don't need to be a code wizard to use it.  For many, the comments written in the index.html file in the download source will be enough to get your animations up and running.  But TextFX is also a powerful script that lends itself nicely to more advanced coders with things like:<br />
+        
+                <ol>
+                
+                    <li>Optional callbacks with params:<ul>
+                        
+                            <li>onStart</li>
+                            <li>onComplete</li>
+                            <li>onStartParams</li>
+                            <li>onCompleteParams</li>
+                            
+                        </ul>
+                        
+                    </li>
+                
+                    <li>Automatic overriding:  Running a consecutive animation on the same div will automatically kill and clean up the first animation.</li>
+                
+                    <li>Clean up methods:  Immediately kill all running animations, a single animation or a selected group of animations.</li>
+                
+                    <li>Start delay for more control on when animations begin.</li>
+                
+                </ol>
+                
+                <br />
+                <h2>Methods Available</h2>
+                
+                <b>Special Note:</b><br />
+                
+                <span class="note">The jQuery.cjTextFx(); (init function) must always be called before starting your first animation.  But it must only be called once.</span><br /><br />
+                
+                <div class="code">
+                
+                    jQuery.cjTextFx(settings:Object = null);<br />
+                    jQuery.cjTextFx.animate(jQuery-search-term:String, settings:Object = null);<br />
+                    jQuery.cjTextFx.remove(remove-all:Boolean, objects-to-remove:Array = null);<br />
+                    
+                </div>
+                
+                <br /><br />
+                
+                <h2>Usage Examples</h2>
+                
+                <b>Special Note:</b><br />
+                <span class="note">Params passed into the "animate" function will not be saved as global params.  This is why it's a good idea to set some global params (params passed into the init function).</span><br /><br />   
+                
+                <h3>Example #1: Write params to a variable and pass into the init function</h3>
+                
+                <div class="code">
+                
+                    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                    
+                    	jQuery(document).ready(function() {<br /><br />
+                    		
+                        	<div class="margin">
+                            
+                            	var textFxSettings = {animation: 3, color: "#FF0000", animationType: &quot;out&quot;, speed: 1000};<br /><br />
+                   				jQuery.cjTextFx(textFxSettings); // INIT FUNCTION<br />
+                    			jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;);<br /><br />
+                                
+                            </div>
+                            
+                    	});
+                        
+                	</div>
+                    
+                    <br />&lt;/script&gt;<br />
+                    
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #2: Write params to a variable and pass into the animate function</h3>
+                
+                <div class="code">
+                
+                    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                    
+                        jQuery(document).ready(function() {
+                    
+                            <div class="margin">
+                            
+                                <br />var textFxSettings = {animation: 3, color: "#FF0000", animationType: &quot;out&quot;, speed: 1000};<br /><br />
+                                jQuery.cjTextFx(); // INIT FUNCTION<br />
+                                jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;, textFxSettings);<br /><br />
+                                
+                            </div>
+                            
+                        });
+                    
+                    </div>
+                    
+                    <br />&lt;/script&gt;<br />
+                    
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #3: Pass params directly into the init function</h3>
+                
+                <div class="code">
+                
+                	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    
+                    <div class="margin">
+                    	
+                        &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    		
+                        <div class="margin">
+                        
+                    		jQuery(document).ready(function() {<br /><br />
+                    		
+                            <div class="margin">
+                            
+                            	jQuery.cjTextFx({animation: 3, color: "#FF0000", animationType: &quot;out&quot;, speed: 1000}); // INIT FUNCTION<br />
+                    			jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;);<br /><br />
+                                
+                            </div>
+                            
+                        </div>
+                    
+                    	});
+                    
+                    </div>
+                    
+                    <br />&lt;/script&gt;<br />
+                
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #4: Pass params directly into the "animate" function</h3>
+                
+                <div class="code">
+                
+                    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                    
+                        jQuery(document).ready(function() {<br /><br />
+                        
+                        <div class="margin">
+                        
+                            jQuery.cjTextFx(); // INIT FUNCTION<br />
+                            jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;, {animation: 3, color: "#FF0000", speed: 1000});<br /><br />
+                        
+                        </div>
+                        
+                        });
+                        
+                    </div>
+                    
+                    <br />&lt;/script&gt;<br />
+                    
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #5: Initialize two animations and then kill them both</h3>
+                
+                <div class="code">
+                
+                    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                       
+                        jQuery(document).ready(function() {<br /><br />
+                        
+                        <div class="margin">
+                        
+                            jQuery.cjTextFx(); // INIT FUNCTION<br />
+                            jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;, {animation: 3, color: "#FF0000", speed: 1000});<br />
+                            
+                            jQuery.cjTextFx.animate(&quot;#another-div-to-animate&quot;, {animation: 3, startDelay: 3000});<br /><br />
+                            jQuery.cjTextFx.remove(true); // STOPS AND REMOVES ALL ANIMATIONS<br /><br />
+                            
+                        </div>    
+                            
+                        });
+                        
+                    </div>
+                    
+                    <br />&lt;/script&gt;<br />
+                
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #6: Animate two divs and kill only the second</h3>
+                
+                <div class="code">
+                
+                	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                    
+                        jQuery(document).ready(function() {<br /><br />
+                        
+                        <div class="margin">
+                        
+                            jQuery.cjTextFx(); // INIT FUNCTION<br />
+                            jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;, {animation: 3, color: "#FF0000", speed: 1000});<br />
+                            jQuery.cjTextFx.animate(&quot;#another-div-to-animate&quot;, {animation: 7, color: "#000000", startDelay: 3000});<br /><br />
+                            jQuery.cjTextFx.remove(false, [&quot;#another-div-to-animate&quot;]); // ONLY KILLS THE SECOND ANIMATION<br /><br />
+                        
+                        </div>
+                        
+                    	});
+                    
+                    </div>
+                    
+                    <br />&lt;/script&gt;<br />
+                
+                </div>
+                
+                <br /><br />
+                
+                <h3>Example #7: Animate a div with a callback and call back params</h3>
+                
+                <div class="code">
+                
+                	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/cj-text-fx.css&quot; /&gt;<br />
+                    &lt;script src=&quot;js/cj-text-fx.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;<br /><br />
+                    &lt;script type=&quot;text/javascript&quot;&gt;<br /><br />
+                    
+                    <div class="margin">
+                    
+                        jQuery(document).ready(function() {<br /><br />
+                        
+                        <div class="margin">
+                        	
+                            var textFxSettings = {animation: 3, color: "#FF0000", animationType: &quot;out&quot;, speed: 1000};<br /><br />
+                            jQuery.cjTextFx(textFxSettings); // INIT FUNCTION<br />
+                            jQuery.cjTextFx.animate(&quot;#div-to-animate&quot;, {onComplete: myFunction, onCompleteParams: [&quot;hello&quot;, &quot;world&quot;]);<br /><br />
+                            
+                        </div>    
+                            
+                        });<br /><br />
+                        // CALLBACK<br />
+                        function myFunction(ar) {<br />
+                        
+                        <div class="margin">alert(ar[0] + &quot; &quot; + ar[1]); // OUTPUT: hello world</div>
+                        
+                        }<br /><br />
+                        
+                    </div>
+                    
+                    &lt;/script&gt;<br />
+                
+                </div>
+                
+                <br /><br />
+                
+                <div class="jump" id="options">
+                	<a href="#wrappers">back to top</a>
+                </div>
+                
+                <h2>Optional Settings: (param, default value)</h2>
+                
+               	<i>The animation number, Options are 1-15</i><br />
+                <p class="raise"><span class="color">animation:</span> 1</p>
+                <div class="hr"></div>
+                <i>Options are "in" and "out"</i><br />
+                <p class="raise"><span class="color">animationType:</span> "in"</p>
+                <div class="hr"></div>
+                <i>Start with the last letter, true/false</i><br />
+                <p class="raise"><span class="color">backwards:</span> false</p>
+                <div class="hr"></div>
+                <i>The easing type, case sensitive, all options shown on this page are included: http://gsgd.co.uk/sandbox/jquery/easing/</i><br />
+                <p class="raise"><span class="color">easing:</span> "easeOutQuint"</p>	
+                <div class="hr"></div>
+                <i>The animation speed in milliseconds</i><br />
+                <p class="raise"><span class="color">speed:</span> 1000</p>
+                <div class="hr"></div>		
+                <i>The delay between each letter animation in milliseconds</i><br />
+                <p class="raise"><span class="color">sequenceDelay:</span> 100</p>
+                <div class="hr"></div>	
+                <i>The start delay for your animation in milliseconds</i><br />
+                <p class="raise"><span class="color">startDelay:</span> 0</p>
+                <div class="hr"></div>		
+                <i>If the letters are broken apart, this is the offset x value in pixels</i><br />
+                <p class="raise"><span class="color">offsetX:</span> 100</p>				
+                <div class="hr"></div>
+                <i>If the letters are broken apart, this is the offset y value in pixels</i><br />
+                <p class="raise"><span class="color">offsetY:</span> 50</p>
+                <div class="hr"></div>	
+                <i>The font colo</i>r<br />
+                <p class="raise"><span class="color">color:</span> "#000"</p>		
+                <div class="hr"></div>
+                <i>If the text should be hyperlinked, true/false</i><br />
+                <p class="raise"><span class="color">linked:</span> true</p>
+                <div class="hr"></div>
+                <i>If the text is hyperlinked, enter the url here, otherwise you can enter null</i><br />
+                <p class="raise"><span class="color">hyperlink:</span> "http://www.google.com"</p>
+                <div class="hr"></div>	
+                <i>If the text is hyperlinked, enter the link target here, options are "_blank" or "_parent", otherwise you can enter null</i><br /> 
+                <p class="raise"><span class="color">linkTarget:</span> "_parent"</p>
+                <div class="hr"></div>		
+                <i>A callback function once the animation has finished, enter null for no callback</i><br /> 
+                <p class="raise"><span class="color">onComplete:</span> onCompleteFunction</p>
+                <div class="hr"></div>		
+                <i>An array of parameters for the onComplete callback, enter null for no callback params, keep in mind that the<br />callback will receive a single param (the array</i>)<br /> 
+                <p class="raise"><span class="color">onCompleteParams:</span> ["string", 5, anotherParam]</p>
+                <div class="hr"></div>		
+                <i>A function to fire when the animation starts, enter null for no onStart function</i><br /> 
+                <p class="raise"><span class="color">onStart:</span> onStartFunction</p>
+                <div class="hr"></div>		
+                <i>An array of params to be passed into the onStart function, enter null for no onStart params, keep in mind that the<br />callback will receive a single param (the array)</i><br /> 
+                <p class="raise"><span class="color">onStartParams:</span> ["string", 5, anotherParam]</p>
+                <div class="hr"></div>
+                <i>Setting this to "false" is useful when changing the text value of a div before running a consecutive animation on the same div.<br />
+                See the "demo.html" file in the preview folder for a good example of making use of this parameter.  Options are true/false</i><br />
+                <p class="raise"><span class="color">restoreHTML:</span> true</p>
+                
+                <br /><br />
+                
+                <h2>Additional Notes</h2>
+                <ul>
+                <li>
+                It is possible to use @font-face.  Unfortunately using @font-face can produce incorrect width and height values when animations run as soon as the jQuery(document).ready() function fires.  Google has a nice @font-face loader script but it is not a cross-browser solution.  Because of this, if you choose to use @font-face fonts, it is best to add a "startDelay" to your first animation.  I've found that about a second seems to do the trick.<br /><br /></li>
+                <li>
+                TextFX is not compatible with Cufon<br /><br />
+                </li>
+                <li>HTML 5 Doctype is not needed for the animation to work</li>
+                </ul>
+                <div class="jump">
+                	<a href="#wrappers">back to top</a>
+                </div>
+                
+                <br /><br />
+                
+                <h2>More files by CrackerJack</h2>
+                
+                <a href="http://codecanyon.net/item/galleryjack-jquery-full-bg-image-gallery/236238" target="_blank"><img src="doc_assets/gallery.jpg" width="590" height="300" alt="jQuery Image Gallery" /></a><br /><br />
+                
+                <a href="http://codecanyon.net/item/blades-jquery-a-jquery-banner-rotator/239038" target="_blank"><img src="doc_assets/blades.jpg" width="590" height="300" alt="jQuery Banner Rotator" /></a><br /><br />
+                
+                <a href="http://codecanyon.net/item/zoomshowcase-a-jquery-banner-rotator/302047" target="_blank"><img src="doc_assets/showcase.jpg" width="590" height="300" alt="jQuery Banner Rotator" /></a><br /><br />
+                
+                <a href="http://activeden.net/item/lp-google-friendly-premium-flash-template/159373" target="_blank"><img src="doc_assets/lp.jpg" width="590" height="360" alt="Flash Template" /></a><br /><br />
+                
+                <a href="http://activeden.net/item/blades-portfolio-xml-portfolio-gallery/184532" target="_blank"><img src="doc_assets/portfolio.jpg" width="590" height="300" alt="Flash Gallery" /></a><br /><br />
+                
+                <a href="http://activeden.net/item/chic-an-artists-gallery/107353" target="_blank"><img src="doc_assets/chic.jpg" width="590" height="300" alt="Flash Template" /></a><br />
+        		
+                <div class="jump">
+                	<a href="#wrappers">back to top</a>
+                </div>
+                
+            </div>
+            
+		</div>
+    
+    </body>
+    
+</html>

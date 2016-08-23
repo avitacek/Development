@@ -1,0 +1,14 @@
+#text-fx {
+				
+	font-family: "Droid Sans", Arial, Helvetica, sans-serif;
+	font-size: 32px;
+				
+	line-height: 48px;
+							
+}
+			
+#text-fx > div {
+			
+	position: relative;
+				
+}
